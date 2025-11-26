@@ -6,4 +6,5 @@ if __name__ == "__main__":
     app = QApplication([])
     tela = calculadora()
     app.exec_()
+   
     

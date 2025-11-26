@@ -3,6 +3,12 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QKeySequence
+from funcoes import soma,sub,mult,div
+import tkinter as tk
+
+root = tk.Tk()
+entrada = tk.StringVar()
+
 
 class calculadora(QMainWindow):
       
@@ -20,8 +26,28 @@ class calculadora(QMainWindow):
         self.btn7.clicked.connect(lambda: self.addNumber(7))
         self.btn8.clicked.connect(lambda: self.addNumber(8))
         self.btn9.clicked.connect(lambda: self.addNumber(9))
+        
+        self.btnVirgu.clicked.connect(self.addComma)
+        
+        self.btnMais.clicked.connect(lambda: self.addNumber("+"))
+        self.btnMenos.clicked.connect(lambda: self.addNumber("-"))
+        self.btnVezes.clicked.connect(lambda: self.addNumber("*"))
+        self.btnDivisao.clicked.connect(lambda: self.addNumber("/"))
         self.btnZero.clicked.connect(lambda: self.addNumber(0))
         self.btnApagarTdo.clicked.connect(self.cleanNumber)
+        self.btnIgual.clicked.connect(self.showResult)
+        self.btnApagar.clicked.connect(self.deleteNumber)
+        
+        
+    def addComma(self):
+        ultimo = self.display.text()
+        if "," in ultimo:
+            resultado = ultimo 
+        else:   
+            resultado = ultimo + "," 
+        self.display.setText(resultado)
+
+            
         
     def addNumber(self, numero):
         textoAtual = self.display.text()
@@ -34,8 +60,29 @@ class calculadora(QMainWindow):
     def cleanNumber(self):
         self.display.setText("0")
         
-    def deleteNumber(self):
-        self.setText[:-1]
+    def deleteNumber(self, entrada ):
+        valor = entrada.get()
+        
+        if valor:
+            entrada.set(valor[:-1])
+
+        
+    def showResult(self):
+        n1 = self.display.text()   
+        n2 = 2
+        
+        if "," in n1:
+            n1 = float(n1.replace(",", "."))
+        else:
+            n1 = int(n1)
+        
+        result = soma(n1, n2)
+        print(f'{n1} + {n2} = {result}')
+        print("Tipo: ", type(result))
+
+        
+        
+    
     
     
     

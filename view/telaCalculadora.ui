@@ -347,7 +347,7 @@
      <string>Return</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnPonto">
+   <widget class="QPushButton" name="btnVirgu">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -357,10 +357,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>.</string>
+     <string>,</string>
     </property>
     <property name="shortcut">
-     <string>.</string>
+     <string>,</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnApagar">
