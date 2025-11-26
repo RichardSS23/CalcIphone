@@ -26,17 +26,18 @@ class calculadora(QMainWindow):
         self.btn7.clicked.connect(lambda: self.addNumber(7))
         self.btn8.clicked.connect(lambda: self.addNumber(8))
         self.btn9.clicked.connect(lambda: self.addNumber(9))
+        self.btnZero.clicked.connect(lambda: self.addNumber(0))
         
         self.btnVirgu.clicked.connect(self.addComma)
         
-        self.btnMais.clicked.connect(lambda: self.addNumber("+"))
-        self.btnMenos.clicked.connect(lambda: self.addNumber("-"))
-        self.btnVezes.clicked.connect(lambda: self.addNumber("*"))
-        self.btnDivisao.clicked.connect(lambda: self.addNumber("/"))
-        self.btnZero.clicked.connect(lambda: self.addNumber(0))
+        self.btnMais.clicked.connect(self.setOperation)
+        self.btnMenos.clicked.connect(self.setOperation)
+        self.btnVezes.clicked.connect(self.setOperation)
+        self.btnDivisao.clicked.connect(self.setOperation)
+        
         self.btnApagarTdo.clicked.connect(self.cleanNumber)
         self.btnIgual.clicked.connect(self.showResult)
-        self.btnApagar.clicked.connect(self.deleteNumber)
+        self.btnApagar.clicked.connect(lambda: self.deleteNumber(entrada))
         
         
     def addComma(self):
@@ -47,8 +48,6 @@ class calculadora(QMainWindow):
             resultado = ultimo + "," 
         self.display.setText(resultado)
 
-            
-        
     def addNumber(self, numero):
         textoAtual = self.display.text()
         if textoAtual == '0':
@@ -65,20 +64,39 @@ class calculadora(QMainWindow):
         
         if valor:
             entrada.set(valor[:-1])
-
+       
+    def getNumberDisplay(self, display):
+        num = display.text()   
+        if "," in num:
+            num = float(num.replace(",", "."))
+        else:
+            num = int(num)
+        return num
+      
+    def setNumberDisplay(self, number):
+        number = str(number)
+        number = number.replace(".", ",")
+        self.display.setText(number)  
+     
+    def setCalcDisplay(self, n1, n2, operator):
+         n1 = str(n1).replace(".", ",")
+         n2 = str(n2).replace(".", ",")
+         calc = f"{n1} {operator} {n2} ="
+         self.display_2.setText(calc)
+       
+    def setOperation(self):
+        result = self.display.text()
+        self.display_2.setText(result)
+        self.cleanNumber()
         
     def showResult(self):
-        n1 = self.display.text()   
-        n2 = 2
-        
-        if "," in n1:
-            n1 = float(n1.replace(",", "."))
-        else:
-            n1 = int(n1)
+        n1 = self.getNumberDisplay(self.display_2)   
+        n2 = self.getNumberDisplay(self.display)   
         
         result = soma(n1, n2)
-        print(f'{n1} + {n2} = {result}')
-        print("Tipo: ", type(result))
+        self.setNumberDisplay(result)
+        self.setCalcDisplay(n1, n2, "+")
+        
 
         
         

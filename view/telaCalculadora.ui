@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
+    <width>372</width>
     <height>576</height>
    </rect>
   </property>
@@ -388,15 +388,36 @@
    <widget class="QLabel" name="display">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>150</y>
-      <width>301</width>
+      <x>60</x>
+      <y>160</y>
+      <width>271</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>35</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="display_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>100</y>
+      <width>311</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="text">
