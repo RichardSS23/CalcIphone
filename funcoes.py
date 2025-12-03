@@ -1,15 +1,16 @@
 
-
-
 resultado = 0
 
-def soma(n1, n2):
-    return n1 + n2
-def sub(n1, n2):
-    return n1 - n2
-def mult(n1, n2):
-    return n1 * n2
-def div(n1, n2):
-    if n2 == 0:
-        return "Impossivel fazer essa divisão"
-    return n1 / n2
+def somar(num1, num2):
+    return num1 + num2
+def subitrair(num1, num2):
+    return num1 - num2
+def multiplicar(num1, num2):
+    return num1 * num2
+def dividir(num1, num2):
+    if num2 == 0:
+        return "Erro Divisão"
+    
+    return num1 / num2
+def porcentagem(num1, percent):
+    return num1 * (percent / 100) 

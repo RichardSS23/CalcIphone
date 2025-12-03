@@ -5,6 +5,6 @@ from view.main import calculadora
 if __name__ == "__main__":
     app = QApplication([])
     tela = calculadora()
-    app.exec_()
+    app.exec_() 
    
     

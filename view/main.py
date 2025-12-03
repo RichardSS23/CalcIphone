@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QKeySequence
-from funcoes import soma,sub,mult,div
+from funcoes import somar, subitrair, multiplicar, dividir, porcentagem
 import tkinter as tk
 
 root = tk.Tk()
@@ -16,6 +16,18 @@ class calculadora(QMainWindow):
         super().__init__(**kwargs)
         loadUi("view/telaCalculadora.ui", self)
         self.show()
+        
+        self.num1 = 0
+        self.num2 = 0
+        
+        self.selectedOperation = None
+        self.operationList = {
+            "+": somar,
+            "-": subitrair,
+            "x": multiplicar,
+            "÷": dividir,
+            "%": porcentagem
+        }
         
         self.btn1.clicked.connect(lambda: self.addNumber(1))
         self.btn2.clicked.connect(lambda: self.addNumber(2))
@@ -30,14 +42,18 @@ class calculadora(QMainWindow):
         
         self.btnVirgu.clicked.connect(self.addComma)
         
-        self.btnMais.clicked.connect(self.setOperation)
-        self.btnMenos.clicked.connect(self.setOperation)
-        self.btnVezes.clicked.connect(self.setOperation)
-        self.btnDivisao.clicked.connect(self.setOperation)
+        self.btnMais.clicked.connect(lambda: self.setOperation("+"))
+        self.btnMenos.clicked.connect(lambda: self.setOperation("-"))
+        self.btnVezes.clicked.connect(lambda: self.setOperation("x"))
+        self.btnDivisao.clicked.connect(lambda: self.setOperation("÷"))
+        
+        self.btnMaisMenos.clicked.connect(lambda: self.inverterSinal())
         
         self.btnApagarTdo.clicked.connect(self.cleanNumber)
         self.btnIgual.clicked.connect(self.showResult)
         self.btnApagar.clicked.connect(lambda: self.deleteNumber(entrada))
+        
+        self.btnPorcentagem.clicked.connect(lambda: self.setOperation("%"))
         
         
     def addComma(self):
@@ -55,15 +71,24 @@ class calculadora(QMainWindow):
         else:
             textoAdicionado = textoAtual + str(numero)
         self.display.setText(str(textoAdicionado))
-        
+     
+    def percent(self):
+        perc = self.getNumberDisplay(self.display)
+        resultado = porcentagem(self.num1, perc)
+        self.setNumberDisplay(resultado)
+    
     def cleanNumber(self):
         self.display.setText("0")
-        
-    def deleteNumber(self, entrada ):
-        valor = entrada.get()
-        
-        if valor:
-            entrada.set(valor[:-1])
+        if self.display.text() == "0":
+            self.display_2.setText("0")
+            
+    def deleteNumber(self, entrada):
+        numero = self.display.text()
+        if len(numero) <= 1:
+            self.display.setText("0")
+        else:
+            novoNumero = numero[:-1]
+            self.display.setText(novoNumero)        
        
     def getNumberDisplay(self, display):
         num = display.text()   
@@ -84,20 +109,33 @@ class calculadora(QMainWindow):
          calc = f"{n1} {operator} {n2} ="
          self.display_2.setText(calc)
        
-    def setOperation(self):
+    def setOperation(self, operation):
+        self.selectedOperation = operation
+        self.num1 = self.getNumberDisplay(self.display)
+        self.num2 = 0
         result = self.display.text()
         self.display_2.setText(result)
-        self.cleanNumber()
+        self.display.setText("0")
         
     def showResult(self):
-        n1 = self.getNumberDisplay(self.display_2)   
-        n2 = self.getNumberDisplay(self.display)   
+        if self.num2 == 0:
+            self.num2 = self.getNumberDisplay(self.display)
         
-        result = soma(n1, n2)
+        num1 = self.num1
+        num2 = self.num2
+        
+        operation = self.operationList.get(self.selectedOperation)  
+        result = operation(num1, num2)
+        self.num1 = result
+        
+        
         self.setNumberDisplay(result)
-        self.setCalcDisplay(n1, n2, "+")
+        self.setCalcDisplay(num1, num2, f"{self.selectedOperation}")
         
-
+    def inverterSinal(self):
+        numeroDisplay = int(self.display.text())
+        numero = str(numeroDisplay * -1)
+        self.display.setText(numero)
         
         
     
